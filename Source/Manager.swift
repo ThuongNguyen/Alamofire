@@ -36,10 +36,16 @@ public class Manager {
         for any ad hoc requests.
     */
     public static let sharedInstance: Manager = {
+        
+        let serverTrustPolicies: [String: ServerTrustPolicy] = [
+            "10.10.23.24": .DisableEvaluation
+        ]
+        
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         configuration.HTTPAdditionalHeaders = Manager.defaultHTTPHeaders
-
-        return Manager(configuration: configuration)
+        
+        return Manager(configuration: configuration,
+                       serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies))
     }()
 
     /**
